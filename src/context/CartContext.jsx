@@ -33,7 +33,7 @@ export function CartProvider({ children }) {
         setCart((prevCart) => {
             // Check if product already exists in cart
             const existingItem = prevCart.find(
-                (item) => item.id === product.id
+                (item) => item.id === product.id,
             );
 
             if (existingItem) {
@@ -41,7 +41,7 @@ export function CartProvider({ children }) {
                 return prevCart.map((item) =>
                     item.id === product.id
                         ? { ...item, quantity: item.quantity + quantity }
-                        : item
+                        : item,
                 );
             } else {
                 // If doesn't exist, add new item
@@ -66,8 +66,8 @@ export function CartProvider({ children }) {
             prevCart.map((item) =>
                 item.id === productId
                     ? { ...item, quantity: newQuantity }
-                    : item
-            )
+                    : item,
+            ),
         );
     };
 
@@ -85,15 +85,15 @@ export function CartProvider({ children }) {
     const getCartSubtotal = () => {
         return cart.reduce(
             (total, item) => total + item.price * item.quantity,
-            0
+            0,
         );
     };
 
     // Calculate cart total with tax and shipping
     const getCartTotal = () => {
         const subtotal = getCartSubtotal();
-        const tax = subtotal * 0.1; // 10% tax
-        const shipping = subtotal > 100 ? 0 : 10; // Free shipping over $100
+        const tax = subtotal * 0.25; // 25% tax
+        const shipping = subtotal > 50 ? 0 : 10; // Free shipping over $50
         return subtotal + tax + shipping;
     };
 
