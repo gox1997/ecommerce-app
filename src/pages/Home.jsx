@@ -1,105 +1,245 @@
+import { useState, useMemo } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import Filters from "../components/Filters";
+import SearchBar from "../components/SearchBar";
 
 function Home() {
     const { addToCart, toggleFavorite, isFavorite } = useCart();
 
+    // Filter state
+    const [filters, setFilters] = useState({
+        categories: [],
+        priceRange: { min: "", max: "" },
+        sortBy: "",
+    });
+
+    // Search state
+    const [searchQuery, setSearchQuery] = useState("");
+
+    // Filter and sort products
+    const filteredProducts = useMemo(() => {
+        let result = [...products];
+
+        // Apply search
+        if (searchQuery) {
+            result = result.filter(
+                (product) =>
+                    product.name
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                    product.description
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()),
+            );
+        }
+
+        // Apply category filter
+        if (filters.categories.length > 0) {
+            result = result.filter((product) =>
+                filters.categories.includes(product.category),
+            );
+        }
+
+        // Apply price range filter
+        if (filters.priceRange.min !== "") {
+            result = result.filter(
+                (product) => product.price >= filters.priceRange.min,
+            );
+        }
+        if (filters.priceRange.max !== "") {
+            result = result.filter(
+                (product) => product.price <= filters.priceRange.max,
+            );
+        }
+
+        // Apply sorting
+        if (filters.sortBy) {
+            result.sort((a, b) => {
+                switch (filters.sortBy) {
+                    case "price-asc":
+                        return a.price - b.price;
+                    case "price-desc":
+                        return b.price - a.price;
+                    case "name-asc":
+                        return a.name.localeCompare(b.name);
+                    case "name-desc":
+                        return b.name.localeCompare(a.name);
+                    case "rating-desc":
+                        return b.rating - a.rating;
+                    default:
+                        return 0;
+                }
+            });
+        }
+
+        return result;
+    }, [products, searchQuery, filters]);
+
+    // Clear all filters
+    const handleClearFilters = () => {
+        setFilters({
+            categories: [],
+            priceRange: { min: "", max: "" },
+            sortBy: "",
+        });
+        setSearchQuery("");
+    };
+
+    // Add to cart handler
     const handleAddToCart = (product) => {
         addToCart(product);
     };
 
     return (
         <div className="max-w-7xl mx-auto">
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products.map((product) => (
-                    <div
-                        key={product.id}
-                        className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-                    >
-                        {/* Product Image */}
-                        <Link to={`/product/${product.id}`}>
-                            <div className="relative h-64 overflow-hidden group cursor-pointer">
-                                <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                />
+            {/* Search Bar */}
+            <div className="mb-8">
+                <SearchBar
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                />
+            </div>
 
-                                {/* Stock badges */}
-                                {product.stock <= 5 && product.stock > 0 && (
-                                    <span className="absolute top-2 right-2 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">
-                                        Only {product.stock} left!
-                                    </span>
-                                )}
-                                {product.stock === 0 && (
-                                    <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
-                                        Out of Stock
-                                    </span>
-                                )}
-                            </div>
-                        </Link>
+            {/* Results Summary */}
+            <div className="mb-6 flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-gray-800">
+                    Products
+                    <span className="text-lg font-normal text-gray-600 ml-2">
+                        ({filteredProducts.length}{" "}
+                        {filteredProducts.length === 1 ? "item" : "items"})
+                    </span>
+                </h2>
+            </div>
 
-                        {/* Favorite button */}
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                toggleFavorite(product.id);
-                            }}
-                            className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-md hover:scale-110 transition-transform z-10"
-                        >
-                            <span className="text-xl">
-                                {isFavorite(product.id) ? "❤️" : "🤍"}
-                            </span>
-                        </button>
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                {/* Filters Sidebar */}
+                <div className="lg:col-span-1">
+                    <Filters
+                        filters={filters}
+                        setFilters={setFilters}
+                        onClearFilters={handleClearFilters}
+                    />
+                </div>
 
-                        {/* Product Info */}
-                        <div className="p-4">
-                            <div className="text-xs text-gray-500 uppercase mb-1">
-                                {product.category}
-                            </div>
-                            <Link to={`/product/${product.id}`}>
-                                <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-1 hover:text-blue-600">
-                                    {product.name}
-                                </h3>
-                            </Link>
-                            <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                                {product.description}
+                {/* Products Grid */}
+                <div className="lg:col-span-3">
+                    {filteredProducts.length === 0 ? (
+                        // No results message
+                        <div className="text-center py-16">
+                            <div className="text-6xl mb-4">😕</div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                                No products found
+                            </h3>
+                            <p className="text-gray-600 mb-6">
+                                Try adjusting your filters or search query
                             </p>
-
-                            {/* Price and Rating */}
-                            <div className="flex justify-between items-center mb-3">
-                                <span className="text-2xl font-bold text-blue-600">
-                                    ${product.price}
-                                </span>
-                                <div className="flex items-center">
-                                    <span className="text-yellow-400 mr-1">
-                                        ⭐
-                                    </span>
-                                    <span className="text-sm text-gray-600">
-                                        {product.rating}
-                                    </span>
-                                </div>
-                            </div>
-
-                            {/* Add to Cart Button */}
                             <button
-                                onClick={() => handleAddToCart(product)}
-                                className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
-                                    product.stock > 0
-                                        ? "bg-blue-600 hover:bg-blue-700 text-white active:scale-95"
-                                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                }`}
-                                disabled={product.stock === 0}
+                                onClick={handleClearFilters}
+                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
                             >
-                                {product.stock > 0
-                                    ? "🛒 Add to Cart"
-                                    : "Out of Stock"}
+                                Clear Filters
                             </button>
                         </div>
-                    </div>
-                ))}
+                    ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                            {filteredProducts.map((product) => (
+                                <div
+                                    key={product.id}
+                                    className="relative bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+                                >
+                                    {/* Favorite button */}
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            toggleFavorite(product.id);
+                                        }}
+                                        className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-md hover:scale-110 transition-transform z-10"
+                                    >
+                                        <span className="text-xl">
+                                            {isFavorite(product.id)
+                                                ? "❤️"
+                                                : "🤍"}
+                                        </span>
+                                    </button>
+
+                                    {/* Product Image */}
+                                    <Link to={`/product/${product.id}`}>
+                                        <div className="relative h-64 overflow-hidden group cursor-pointer">
+                                            <img
+                                                src={product.image}
+                                                alt={product.name}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                            />
+
+                                            {/* Stock badges */}
+                                            {product.stock <= 5 &&
+                                                product.stock > 0 && (
+                                                    <span className="absolute top-2 right-2 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                                                        Only {product.stock}{" "}
+                                                        left!
+                                                    </span>
+                                                )}
+                                            {product.stock === 0 && (
+                                                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                                                    Out of Stock
+                                                </span>
+                                            )}
+                                        </div>
+                                    </Link>
+
+                                    {/* Product Info */}
+                                    <div className="p-4">
+                                        <div className="text-xs text-gray-500 uppercase mb-1">
+                                            {product.category}
+                                        </div>
+                                        <Link to={`/product/${product.id}`}>
+                                            <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-1 hover:text-blue-600">
+                                                {product.name}
+                                            </h3>
+                                        </Link>
+                                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                                            {product.description}
+                                        </p>
+
+                                        {/* Price and Rating */}
+                                        <div className="flex justify-between items-center mb-3">
+                                            <span className="text-2xl font-bold text-blue-600">
+                                                ${product.price}
+                                            </span>
+                                            <div className="flex items-center">
+                                                <span className="text-yellow-400 mr-1">
+                                                    ⭐
+                                                </span>
+                                                <span className="text-sm text-gray-600">
+                                                    {product.rating}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Add to Cart Button */}
+                                        <button
+                                            onClick={() =>
+                                                handleAddToCart(product)
+                                            }
+                                            className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
+                                                product.stock > 0
+                                                    ? "bg-blue-600 hover:bg-blue-700 text-white active:scale-95"
+                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                            }`}
+                                            disabled={product.stock === 0}
+                                        >
+                                            {product.stock > 0
+                                                ? "🛒 Add to Cart"
+                                                : "Out of Stock"}
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

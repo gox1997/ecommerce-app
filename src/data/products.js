@@ -104,7 +104,7 @@ export const products = [
         description:
             "Insulated stainless steel water bottle keeps drinks cold for 24 hours.",
         rating: 4.7,
-        stock: 50,
+        stock: 20,
         brand: "HydroMax",
     },
     {
