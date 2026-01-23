@@ -31,7 +31,14 @@ function Home() {
                         .includes(searchQuery.toLowerCase()) ||
                     product.description
                         .toLowerCase()
-                        .includes(searchQuery.toLowerCase()),
+                        .includes(searchQuery.toLowerCase()) ||
+                    product.category
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                    (product.brand &&
+                        product.brand
+                            .toLowerCase()
+                            .includes(searchQuery.toLowerCase())),
             );
         }
 
