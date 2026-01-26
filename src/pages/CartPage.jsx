@@ -175,10 +175,12 @@ function CartPage() {
                                 </span>
                             </div>
                         </div>
-                        <Link to="/checkout">
-                            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors mb-3">
-                                Proceed to Checkout
-                            </button>
+
+                        <Link
+                            to="/checkout"
+                            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors mb-3 text-center"
+                        >
+                            Proceed to Checkout
                         </Link>
 
                         <Link
