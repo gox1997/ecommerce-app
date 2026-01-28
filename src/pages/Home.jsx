@@ -5,8 +5,17 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Filters from "../components/Filters";
 import SearchBar from "../components/SearchBar";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Button from "../components/Button";
 
 function Home() {
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Show loading when needed
+    if (isLoading) {
+        return <LoadingSpinner text="Loading products..." />;
+    }
+
     const { addToCart, toggleFavorite, isFavorite } = useCart();
 
     // Filter state
@@ -96,13 +105,20 @@ function Home() {
     };
 
     // Add to cart handler
-    const handleAddToCart = (product) => {
-        addToCart(product);
+    const [addingToCart, setAddingToCart] = useState(null);
+    const handleAddToCart = async (product) => {
+        setAddingToCart(product.id); // Start loading for this product
 
+        // Simulate delay
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        addToCart(product);
         toast.success(`${product.name} added to cart!`, {
             duration: 2000,
             icon: "🛒",
         });
+
+        setAddingToCart(null); // Stop loading
     };
 
     return (
@@ -232,21 +248,25 @@ function Home() {
                                         </div>
 
                                         {/* Add to Cart Button */}
-                                        <button
+                                        <Button
                                             onClick={() =>
                                                 handleAddToCart(product)
                                             }
-                                            className={`w-full py-2 px-4 rounded-lg font-semibold transition-all ${
-                                                product.stock > 0
-                                                    ? "bg-blue-600 hover:bg-blue-700 text-white active:scale-95"
-                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                            }`}
+                                            loading={
+                                                addingToCart === product.id
+                                            }
                                             disabled={product.stock === 0}
+                                            variant={
+                                                product.stock > 0
+                                                    ? "primary"
+                                                    : "secondary"
+                                            }
+                                            className="w-full"
                                         >
                                             {product.stock > 0
                                                 ? "🛒 Add to Cart"
                                                 : "Out of Stock"}
-                                        </button>
+                                        </Button>
                                     </div>
                                 </div>
                             ))}

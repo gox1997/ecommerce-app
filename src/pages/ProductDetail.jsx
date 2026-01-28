@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { getProductById, getProductsByCategory } from "../data/products";
 import toast from "react-hot-toast";
+import Button from "../components/Button";
 
 function ProductDetail() {
     const { id } = useParams(); // Get product ID from URL
@@ -49,13 +50,19 @@ function ProductDetail() {
     };
 
     // Handle add to cart
-    const handleAddToCart = () => {
-        addToCart(product, quantity);
+    const [isAdding, setIsAdding] = useState(false);
+    const handleAddToCart = async () => {
+        setIsAdding(true);
 
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        addToCart(product, quantity);
         toast.success(`${quantity} ${product.name}(s) added to cart!`, {
             duration: 2000,
             icon: "🛒",
         });
+
+        setIsAdding(false);
     };
 
     return (
@@ -231,19 +238,21 @@ function ProductDetail() {
 
                     {/* Add to Cart Button */}
                     <div className="flex gap-4 mb-8">
-                        <button
+                        <Button
                             onClick={handleAddToCart}
+                            loading={isAdding}
                             disabled={product.stock === 0}
-                            className={`flex-1 py-4 px-8 rounded-lg font-semibold text-lg transition-all ${
-                                product.stock > 0
-                                    ? "bg-blue-600 hover:bg-blue-700 text-white active:scale-95"
-                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            }`}
+                            variant={
+                                product.stock > 0 ? "primary" : "secondary"
+                            }
+                            className="flex-1 text-lg py-4"
                         >
-                            {product.stock > 0
-                                ? "🛒 Add to Cart"
-                                : "Out of Stock"}
-                        </button>
+                            {isAdding
+                                ? "Adding..."
+                                : product.stock > 0
+                                  ? "🛒 Add to Cart"
+                                  : "Out of Stock"}
+                        </Button>
                     </div>
 
                     {/* Additional Info */}

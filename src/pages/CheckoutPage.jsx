@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import Button from "../components/Button";
 
 function CheckoutPage() {
     const { cart, getCartSubtotal, clearCart } = useCart();
@@ -156,37 +157,42 @@ function CheckoutPage() {
         setCurrentStep((prev) => prev - 1);
     };
 
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
     // Handle order placement
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
+        setIsPlacingOrder(true); // Start loading
+
+        // Simulate processing delay (optional but looks professional)
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
+        const subtotal = getCartSubtotal();
+        const tax = subtotal * 0.25;
+        const shipping = subtotal > 50 ? 0 : 10;
+        const total = subtotal + tax + shipping;
+
         const order = {
             id: Date.now(),
             items: cart,
-            shipping: {
-                fullName: formData.fullName,
-                email: formData.email,
-                phone: formData.phone,
-                address: formData.address,
-                city: formData.city,
-                zipCode: formData.zipCode,
-                country: formData.country,
-            },
-            total: calculateTotal(),
+            shipping: { ...formData },
+            total,
             date: new Date().toISOString(),
         };
 
-        // Save to localStorage
         const orders = JSON.parse(localStorage.getItem("orders") || "[]");
         orders.push(order);
         localStorage.setItem("orders", JSON.stringify(orders));
 
-        // Clear cart
         clearCart();
+        setIsPlacingOrder(false); // Stop loading
 
-        // Navigate to success page
-        toast.success("Order placed successfully!", {
-            duration: 3000,
-            icon: "✅",
-        });
+        if (toast) {
+            toast.success("Order placed successfully!", {
+                duration: 3000,
+                icon: "✅",
+            });
+        }
+
         navigate("/order-success", { state: { order } });
     };
 
@@ -690,12 +696,16 @@ function CheckoutPage() {
                                     {currentStep === 1 ? "Payment" : "Review"}
                                 </button>
                             ) : (
-                                <button
+                                <Button
                                     onClick={handlePlaceOrder}
-                                    className="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors"
+                                    loading={isPlacingOrder}
+                                    variant="primary"
+                                    className="flex-1"
                                 >
-                                    Place Order
-                                </button>
+                                    {isPlacingOrder
+                                        ? "Processing..."
+                                        : "Place Order"}
+                                </Button>
                             )}
                         </div>
                     </div>
