@@ -26,6 +26,12 @@ function Navbar() {
                         </Link>
 
                         <Link
+                            to="/orders"
+                            className="text-gray-600 hover:text-blue-600 font-semibold transition-colors"
+                        >
+                            Orders
+                        </Link>
+                        <Link
                             to="/cart"
                             className="relative hover:scale-110 transition-transform"
                         >
