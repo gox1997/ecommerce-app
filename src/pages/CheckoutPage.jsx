@@ -206,46 +206,70 @@ function CheckoutPage() {
             <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
 
             {/* Progress Steps */}
+
             <div className="mb-12">
-                <div className="flex items-center justify-between">
-                    {[1, 2, 3].map((step) => (
-                        <div key={step} className="flex-1 relative">
-                            <div className="flex items-center relative z-10">
+                <div className="flex items-center justify-between relative">
+                    {[1, 2, 3].map((step) => {
+                        const isActive = currentStep === step;
+                        const isCompleted = currentStep > step;
+                        const isPending = currentStep < step;
+
+                        return (
+                            <div
+                                key={step}
+                                className="flex flex-col items-center relative flex-1"
+                            >
+                                {/* Circle */}
                                 <div
-                                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                                        currentStep >= step
-                                            ? "bg-blue-600 text-white"
-                                            : "bg-gray-300 text-gray-600"
+                                    className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg shadow-md transition-all duration-300 ${
+                                        isCompleted
+                                            ? "bg-green-600 text-white"
+                                            : isActive
+                                              ? "bg-blue-600 text-white ring-4 ring-blue-200"
+                                              : "bg-gray-300 text-gray-600"
+                                    }`}
+                                    aria-label={`Step ${step}: ${
+                                        step === 1
+                                            ? "Shipping"
+                                            : step === 2
+                                              ? "Payment"
+                                              : "Review"
+                                    }`}
+                                    role="img"
+                                >
+                                    {isCompleted ? "✓" : step}
+                                </div>
+
+                                {/* Label Below */}
+                                <div
+                                    className={`mt-3 text-sm font-semibold text-center ${
+                                        isCompleted || isActive
+                                            ? "text-blue-600"
+                                            : "text-gray-600"
                                     }`}
                                 >
-                                    {step}
+                                    {step === 1 && "Shipping"}
+                                    {step === 2 && "Payment"}
+                                    {step === 3 && "Review"}
                                 </div>
-                                <div className="ml-2">
+
+                                {/* Connecting Line (for steps 1-2 and 2-3) */}
+                                {step < 3 && (
                                     <div
-                                        className={`text-sm font-semibold ${
-                                            currentStep >= step
-                                                ? "text-blue-600"
-                                                : "text-gray-600"
+                                        className={`absolute top-6 left-[50%] w-full h-1 transition-colors duration-300 ${
+                                            isCompleted || currentStep > step
+                                                ? "bg-blue-600"
+                                                : "bg-gray-300"
                                         }`}
-                                    >
-                                        {step === 1 && "Shipping"}
-                                        {step === 2 && "Payment"}
-                                        {step === 3 && "Review"}
-                                    </div>
-                                </div>
+                                        style={{
+                                            width: "calc(100% - 3rem)",
+                                            zIndex: -1,
+                                        }}
+                                    />
+                                )}
                             </div>
-                            {step < 3 && (
-                                <div
-                                    className={`absolute top-5 left-10 w-full h-1 z-[1] ${
-                                        currentStep > step
-                                            ? "bg-blue-600"
-                                            : "bg-gray-300"
-                                    }`}
-                                    style={{ width: "calc(100% - 2.5rem)" }}
-                                />
-                            )}
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 
