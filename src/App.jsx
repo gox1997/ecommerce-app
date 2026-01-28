@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import CartPage from "./pages/CartPage";
@@ -9,6 +10,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 function App() {
     return (
         <div className="min-h-screen bg-gray-50">
+            <Toaster position="top-right" />
             <Navbar />
 
             <main className="p-8">

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function CheckoutPage() {
     const { cart, getCartSubtotal, clearCart } = useCart();
@@ -99,7 +100,12 @@ function CheckoutPage() {
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+
+        if (Object.keys(newErrors).length > 0) {
+            toast.error("Please fill all required fields");
+            return false;
+        }
+        return true;
     };
 
     // Validate Step 2 (Payment)
@@ -129,7 +135,11 @@ function CheckoutPage() {
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        if (Object.keys(newErrors).length > 0) {
+            toast.error("Please fill all required fields");
+            return false;
+        }
+        return true;
     };
 
     // Handle next step
@@ -173,6 +183,10 @@ function CheckoutPage() {
         clearCart();
 
         // Navigate to success page
+        toast.success("Order placed successfully!", {
+            duration: 3000,
+            icon: "✅",
+        });
         navigate("/order-success", { state: { order } });
     };
 

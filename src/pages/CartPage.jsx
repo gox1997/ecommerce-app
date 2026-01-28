@@ -1,5 +1,6 @@
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function CartPage() {
     const { cart, removeFromCart, updateQuantity, getCartSubtotal, clearCart } =
@@ -15,6 +16,14 @@ function CartPage() {
     const handleQuantityChange = (productId, newQuantity) => {
         if (newQuantity < 1) return;
         updateQuantity(productId, newQuantity);
+    };
+
+    const handleRemove = (productId, productName) => {
+        removeFromCart(productId);
+        toast.error(`${productName} removed from cart`, {
+            duration: 2000,
+            icon: "🗑️",
+        });
     };
 
     // Empty cart message
@@ -80,7 +89,9 @@ function CartPage() {
                             {/* Quantity Controls */}
                             <div className="flex flex-col items-end justify-between">
                                 <button
-                                    onClick={() => removeFromCart(item.id)}
+                                    onClick={() =>
+                                        handleRemove(item.id, item.name)
+                                    }
                                     className="text-red-500 hover:text-red-700 font-semibold text-sm"
                                 >
                                     Remove

@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import Filters from "../components/Filters";
 import SearchBar from "../components/SearchBar";
 
@@ -97,6 +98,11 @@ function Home() {
     // Add to cart handler
     const handleAddToCart = (product) => {
         addToCart(product);
+
+        toast.success(`${product.name} added to cart!`, {
+            duration: 2000,
+            icon: "🛒",
+        });
     };
 
     return (

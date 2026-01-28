@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { getProductById, getProductsByCategory } from "../data/products";
+import toast from "react-hot-toast";
 
 function ProductDetail() {
     const { id } = useParams(); // Get product ID from URL
@@ -50,10 +51,11 @@ function ProductDetail() {
     // Handle add to cart
     const handleAddToCart = () => {
         addToCart(product, quantity);
-        // Show success message and redirect after short delay
-        alert(`${quantity} ${product.name}(s) added to cart!`);
-        // Optional: navigate to cart
-        // navigate('/cart');
+
+        toast.success(`${quantity} ${product.name}(s) added to cart!`, {
+            duration: 2000,
+            icon: "🛒",
+        });
     };
 
     return (
