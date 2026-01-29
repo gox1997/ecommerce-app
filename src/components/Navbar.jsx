@@ -5,7 +5,7 @@ function Navbar() {
     const { getCartCount } = useCart();
 
     return (
-        <nav className="bg-white shadow-md sticky top-0 z-50">
+        <nav className="bg-[#e9ecef] shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <div className="flex justify-between items-center">
                     {/* Logo/Brand */}

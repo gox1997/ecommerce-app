@@ -33,7 +33,7 @@ function Filters({ filters, setFilters, onClearFilters }) {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
+        <div className="bg-[#dee2e6] rounded-lg shadow-md p-6 sticky top-24">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-gray-800">Filters</h2>
                 <button

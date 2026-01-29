@@ -133,9 +133,9 @@ function Home() {
 
             {/* Results Summary */}
             <div className="mb-6 flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-2xl font-bold">
                     Products
-                    <span className="text-lg font-normal text-gray-600 ml-2">
+                    <span className="text-lg font-normal ml-2">
                         ({filteredProducts.length}{" "}
                         {filteredProducts.length === 1 ? "item" : "items"})
                     </span>
@@ -158,18 +158,18 @@ function Home() {
                         // No results message
                         <div className="text-center py-16">
                             <div className="text-6xl mb-4">😕</div>
-                            <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                            <h3 className="text-2xl font-bold mb-2">
                                 No products found
                             </h3>
-                            <p className="text-gray-600 mb-6">
+                            <p className="mb-6">
                                 Try adjusting your filters or search query
                             </p>
-                            <button
+                            <Button
                                 onClick={handleClearFilters}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                                className="font-semibold px-6 py-3 rounded-lg transition-colors"
                             >
                                 Clear Filters
-                            </button>
+                            </Button>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -220,15 +220,15 @@ function Home() {
 
                                     {/* Product Info */}
                                     <div className="p-4">
-                                        <div className="text-xs text-gray-500 uppercase mb-1">
+                                        <div className="text-xs  uppercase mb-1">
                                             {product.category}
                                         </div>
                                         <Link to={`/product/${product.id}`}>
-                                            <h3 className="font-semibold text-lg text-gray-800 mb-2 line-clamp-1 hover:text-blue-600">
+                                            <h3 className="font-semibold text-lg mb-2 line-clamp-1 hover:text-blue-600">
                                                 {product.name}
                                             </h3>
                                         </Link>
-                                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                                        <p className=" text-sm mb-3 line-clamp-2">
                                             {product.description}
                                         </p>
 
@@ -241,7 +241,7 @@ function Home() {
                                                 <span className="text-yellow-400 mr-1">
                                                     ⭐
                                                 </span>
-                                                <span className="text-sm text-gray-600">
+                                                <span className="text-sm text-#1f241f">
                                                     {product.rating}
                                                 </span>
                                             </div>

@@ -112,7 +112,7 @@ export const products = [
         name: "Phone Case",
         price: 19.99,
         category: "accessories",
-        image: "/products/case.jpeg",
+        image: "/products/phone-case.jpeg",
         description:
             "Protective phone case with shock absorption and slim design.",
         rating: 4.1,
@@ -136,7 +136,7 @@ export const products = [
         name: "Plant Pot Set",
         price: 29.99,
         category: "home",
-        image: "/products/pot.jpeg",
+        image: "/products/plant-pot-set.jpeg",
         description:
             "Set of 3 ceramic plant pots with drainage holes and saucers.",
         rating: 4.4,

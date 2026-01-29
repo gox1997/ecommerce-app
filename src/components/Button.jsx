@@ -7,10 +7,10 @@ function Button({
     className = "",
 }) {
     const variants = {
-        primary: "bg-blue-600 hover:bg-blue-700 text-white",
+        primary: "bg-[#3f37c9] hover:bg-[#480ca8] text-white",
         secondary: "bg-gray-200 hover:bg-gray-300 text-gray-800",
         danger: "bg-red-600 hover:bg-red-700 text-white",
-        orange: "bg-orange-600 hover:bg-orange-700 text-white", // Added for your vibrant theme
+        orange: "bg-orange-600 hover:bg-orange-700 text-white",
     };
 
     const spinnerColor =
@@ -22,7 +22,7 @@ function Button({
         <button
             onClick={onClick}
             disabled={disabled || loading}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
+            className={`ripple px-6 py-3 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}
             aria-disabled={disabled || loading}
         >
             {loading ? (

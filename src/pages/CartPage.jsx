@@ -92,7 +92,7 @@ function CartPage() {
                                     onClick={() =>
                                         handleRemove(item.id, item.name)
                                     }
-                                    className="text-red-500 hover:text-red-700 font-semibold text-sm"
+                                    className="ripple text-red-500 hover:text-red-700 font-semibold text-sm"
                                 >
                                     Remove
                                 </button>
@@ -105,7 +105,7 @@ function CartPage() {
                                                 item.quantity - 1,
                                             )
                                         }
-                                        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
+                                        className="ripple w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
                                     >
                                         -
                                     </button>
@@ -119,7 +119,7 @@ function CartPage() {
                                                 item.quantity + 1,
                                             )
                                         }
-                                        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
+                                        className="ripple w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
                                         disabled={item.quantity >= item.stock}
                                     >
                                         +
@@ -137,7 +137,7 @@ function CartPage() {
                     {/* Clear Cart Button */}
                     <button
                         onClick={clearCart}
-                        className="w-full py-2 text-red-500 hover:text-red-700 font-semibold"
+                        className="ripple w-full py-2 text-red-500 hover:text-red-700 font-semibold"
                     >
                         Clear Cart
                     </button>
