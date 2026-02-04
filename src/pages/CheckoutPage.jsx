@@ -13,10 +13,10 @@ function CheckoutPage() {
         return (
             <div className="max-w-7xl mx-auto text-center py-16">
                 <div className="text-6xl mb-4">🛒</div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-boldtext-gray-800 mb-4">
                     Your cart is empty
                 </h2>
-                <p className="text-gray-600 mb-8">
+                <p className="text-sm sm:text-basetext-gray-600 mb-8">
                     Add some items to your cart before checking out.
                 </p>
                 <button
@@ -223,7 +223,9 @@ function CheckoutPage() {
 
     return (
         <div className="max-w-6xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-8">
+                Checkout
+            </h1>
 
             {/* Progress Steps */}
 
@@ -293,14 +295,14 @@ function CheckoutPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Form Section */}
                 <div className="lg:col-span-2">
                     <div className="bg-white rounded-lg shadow-md p-6">
                         {/* Step 1: Shipping Information */}
                         {currentStep === 1 && (
                             <div>
-                                <h2 className="text-xl font-bold text-gray-800 mb-6">
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-6">
                                     Shipping Information
                                 </h2>
 
@@ -322,7 +324,7 @@ function CheckoutPage() {
                                             placeholder="Ivan Horvat"
                                         />
                                         {errors.fullName && (
-                                            <p className="text-red-500 text-sm mt-1">
+                                            <p className="text-red-500 text-sm sm:text-base mt-1">
                                                 {errors.fullName}
                                             </p>
                                         )}
@@ -346,7 +348,7 @@ function CheckoutPage() {
                                                 placeholder="ivan.horvat@example.com"
                                             />
                                             {errors.email && (
-                                                <p className="text-red-500 text-sm mt-1">
+                                                <p className="text-red-500 text-sm sm:text-base mt-1">
                                                     {errors.email}
                                                 </p>
                                             )}
@@ -369,7 +371,7 @@ function CheckoutPage() {
                                                 placeholder="+385 91 234 5678"
                                             />
                                             {errors.phone && (
-                                                <p className="text-red-500 text-sm mt-1">
+                                                <p className="text-red-500 text-sm sm:text-base mt-1">
                                                     {errors.phone}
                                                 </p>
                                             )}
@@ -393,7 +395,7 @@ function CheckoutPage() {
                                             placeholder="Ilica 99"
                                         />
                                         {errors.address && (
-                                            <p className="text-red-500 text-sm mt-1">
+                                            <p className="text-red-500 text-sm sm:text-base mt-1">
                                                 {errors.address}
                                             </p>
                                         )}
@@ -417,7 +419,7 @@ function CheckoutPage() {
                                                 placeholder="Zagreb"
                                             />
                                             {errors.city && (
-                                                <p className="text-red-500 text-sm mt-1">
+                                                <p className="text-red-500 text-sm sm:text-base mt-1">
                                                     {errors.city}
                                                 </p>
                                             )}
@@ -440,7 +442,7 @@ function CheckoutPage() {
                                                 placeholder="10000"
                                             />
                                             {errors.zipCode && (
-                                                <p className="text-red-500 text-sm mt-1">
+                                                <p className="text-red-500 text-sm sm:text-base mt-1">
                                                     {errors.zipCode}
                                                 </p>
                                             )}
@@ -481,12 +483,12 @@ function CheckoutPage() {
                         {/* Step 2: Payment Information */}
                         {currentStep === 2 && (
                             <div>
-                                <h2 className="text-xl font-bold text-gray-800 mb-6">
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-6">
                                     Payment Information
                                 </h2>
 
                                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                                    <p className="text-sm text-yellow-800">
+                                    <p className="text-sm sm:text-base text-yellow-800">
                                         <strong>Note:</strong> This is a demo.
                                         No real payment will be processed.
                                     </p>
@@ -511,7 +513,7 @@ function CheckoutPage() {
                                             maxLength="19"
                                         />
                                         {errors.cardNumber && (
-                                            <p className="text-red-500 text-sm mt-1">
+                                            <p className="text-red-500 text-sm sm:text-base mt-1">
                                                 {errors.cardNumber}
                                             </p>
                                         )}
@@ -534,7 +536,7 @@ function CheckoutPage() {
                                             placeholder="JOHN DOE"
                                         />
                                         {errors.cardName && (
-                                            <p className="text-red-500 text-sm mt-1">
+                                            <p className="text-red-500 text-sm sm:text-base mt-1">
                                                 {errors.cardName}
                                             </p>
                                         )}
@@ -559,7 +561,7 @@ function CheckoutPage() {
                                                 maxLength="5"
                                             />
                                             {errors.expiryDate && (
-                                                <p className="text-red-500 text-sm mt-1">
+                                                <p className="text-red-500 text-sm sm:text-base mt-1">
                                                     {errors.expiryDate}
                                                 </p>
                                             )}
@@ -591,7 +593,7 @@ function CheckoutPage() {
                                                 maxLength="3"
                                             />
                                             {errors.cvv && (
-                                                <p className="text-red-500 text-sm mt-1">
+                                                <p className="text-red-500 text-sm sm:text-base mt-1">
                                                     {errors.cvv}
                                                 </p>
                                             )}
@@ -604,32 +606,32 @@ function CheckoutPage() {
                         {/* Step 3: Review Order */}
                         {currentStep === 3 && (
                             <div>
-                                <h2 className="text-xl font-bold text-gray-800 mb-6">
+                                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-6">
                                     Review Your Order
                                 </h2>
 
                                 {/* Shipping Details */}
                                 <div className="mb-6">
-                                    <h3 className="font-semibold text-gray-800 mb-3">
+                                    <h3 className="text-lg sm:text-xl md:text-2xl font-semiboldtext-gray-800 mb-3">
                                         Shipping To:
                                     </h3>
                                     <div className="bg-gray-50 rounded-lg p-4">
-                                        <p className="font-semibold">
+                                        <p className="font-semibold text-sm sm:text-base">
                                             {formData.fullName}
                                         </p>
-                                        <p className="text-gray-600">
+                                        <p className="text-gray-600 text-sm sm:text-base">
                                             {formData.address}
                                         </p>
-                                        <p className="text-gray-600">
+                                        <p className="text-gray-600 text-sm sm:text-base">
                                             {formData.city}, {formData.zipCode}
                                         </p>
-                                        <p className="text-gray-600">
+                                        <p className="text-gray-600 text-sm sm:text-base">
                                             {formData.country}
                                         </p>
-                                        <p className="text-gray-600 mt-2">
+                                        <p className="text-gray-600 text-sm sm:text-base mt-2">
                                             {formData.email}
                                         </p>
-                                        <p className="text-gray-600">
+                                        <p className="text-gray-600 text-sm sm:text-base">
                                             {formData.phone}
                                         </p>
                                     </div>
@@ -637,7 +639,7 @@ function CheckoutPage() {
 
                                 {/* Order Items */}
                                 <div className="mb-6">
-                                    <h3 className="font-semibold text-gray-800 mb-3">
+                                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3">
                                         Order Items:
                                     </h3>
                                     <div className="space-y-3">
@@ -655,13 +657,13 @@ function CheckoutPage() {
                                                     <h4 className="font-semibold">
                                                         {item.name}
                                                     </h4>
-                                                    <p className="text-sm text-gray-600">
+                                                    <p className="text-sm sm:text-base text-gray-600">
                                                         Quantity:{" "}
                                                         {item.quantity}
                                                     </p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="font-bold">
+                                                    <p className="font-bold text-orange-400">
                                                         $
                                                         {(
                                                             item.price *
@@ -714,7 +716,7 @@ function CheckoutPage() {
                 {/* Order Summary Sidebar */}
                 <div className="lg:col-span-1">
                     <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-                        <h2 className="text-xl font-bold text-gray-800 mb-4">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-boldtext-gray-800 mb-4">
                             Order Summary
                         </h2>
 
@@ -742,7 +744,7 @@ function CheckoutPage() {
 
                             <div className="border-t pt-3 flex justify-between text-lg font-bold">
                                 <span>Total</span>
-                                <span className="text-blue-600">
+                                <span className="text-orange-500">
                                     ${total.toFixed(2)}
                                 </span>
                             </div>

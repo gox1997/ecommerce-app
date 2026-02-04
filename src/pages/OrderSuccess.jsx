@@ -27,7 +27,7 @@ function OrderSuccess() {
                 </div>
 
                 {/* Success Message */}
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-2">
                     Order Placed Successfully!
                 </h1>
                 <p className="text-gray-600 mb-8">
@@ -41,7 +41,7 @@ function OrderSuccess() {
                 {/* Order Details */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-xl font-bold text-gray-800">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
                             Order Details
                         </h2>
                         <span className="text-sm text-gray-600">
@@ -68,7 +68,7 @@ function OrderSuccess() {
                                         </p>
                                     </div>
                                 </div>
-                                <span className="font-semibold">
+                                <span className="font-semibold text-orange-400">
                                     ${(item.price * item.quantity).toFixed(2)}
                                 </span>
                             </div>
@@ -95,7 +95,7 @@ function OrderSuccess() {
                         </div>
                         <div className="flex justify-between text-lg font-bold border-t pt-2">
                             <span>Total</span>
-                            <span className="text-blue-600">
+                            <span className="text-orange-500">
                                 ${order.total.toFixed(2)}
                             </span>
                         </div>
@@ -104,7 +104,7 @@ function OrderSuccess() {
 
                 {/* Shipping Address */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left">
-                    <h3 className="font-semibold text-gray-800 mb-3">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-semiboldtext-gray-800 mb-3">
                         Shipping Address
                     </h3>
                     <p className="text-gray-700">{order.shipping.fullName}</p>

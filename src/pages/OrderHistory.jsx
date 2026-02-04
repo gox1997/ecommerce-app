@@ -14,7 +14,7 @@ function OrderHistory() {
         return (
             <div className="max-w-7xl mx-auto text-center py-16">
                 <div className="text-6xl mb-4">📦</div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                     No Orders Yet
                 </h2>
                 <p className="text-gray-600 mb-8">
@@ -42,7 +42,7 @@ function OrderHistory() {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-8">
                 Order History
             </h1>
 
@@ -55,15 +55,15 @@ function OrderHistory() {
                         {/* Order Header */}
                         <div className="flex justify-between items-start mb-4 pb-4 border-b">
                             <div>
-                                <h3 className="text-lg font-bold text-gray-800">
+                                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
                                     Order #{order.id}
                                 </h3>
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm sm:text-basetext-gray-600">
                                     {formatDate(order.date)}
                                 </p>
                             </div>
                             <div className="text-right">
-                                <p className="text-2xl font-bold text-blue-600">
+                                <p className="text-2xl font-bold text-orange-500">
                                     ${order.total.toFixed(2)}
                                 </p>
                                 <span className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mt-2">
@@ -95,13 +95,13 @@ function OrderHistory() {
                                             >
                                                 {item.name}
                                             </Link>
-                                            <p className="text-sm text-gray-600">
+                                            <p className="text-sm sm:text-base text-gray-600">
                                                 Quantity: {item.quantity} × $
                                                 {item.price}
                                             </p>
                                         </div>
                                         <div className="text-right">
-                                            <p className="font-bold">
+                                            <p className="font-bold text-orange-400">
                                                 $
                                                 {(
                                                     item.price * item.quantity

@@ -35,7 +35,9 @@ function Filters({ filters, setFilters, onClearFilters }) {
     return (
         <div className="bg-[#dee2e6] rounded-lg shadow-md p-6 sticky top-24">
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-800">Filters</h2>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
+                    Filters
+                </h2>
                 <button
                     onClick={onClearFilters}
                     className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
@@ -46,7 +48,7 @@ function Filters({ filters, setFilters, onClearFilters }) {
 
             {/* Categories */}
             <div className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-3 uppercase">
                     Categories
                 </h3>
                 <div className="space-y-2">
@@ -71,7 +73,7 @@ function Filters({ filters, setFilters, onClearFilters }) {
 
             {/* Price Range */}
             <div className="mb-6">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-3 uppercase">
                     Price Range
                 </h3>
                 <div className="flex gap-3">
@@ -110,7 +112,7 @@ function Filters({ filters, setFilters, onClearFilters }) {
 
             {/* Sort By */}
             <div className="mb-4">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3 uppercase">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-700 mb-3 uppercase">
                     Sort By
                 </h3>
                 <select

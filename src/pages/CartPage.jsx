@@ -31,7 +31,7 @@ function CartPage() {
         return (
             <div className="max-w-7xl mx-auto text-center py-16">
                 <div className="text-6xl mb-4">🛒</div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                     Your cart is empty
                 </h2>
                 <p className="text-gray-600 mb-8">
@@ -49,12 +49,12 @@ function CartPage() {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-800 mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-8">
                 Shopping Cart ({cart.length}{" "}
                 {cart.length === 1 ? "item" : "items"})
             </h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Cart Items */}
                 <div className="lg:col-span-2 space-y-4">
                     {cart.map((item) => (
@@ -74,14 +74,14 @@ function CartPage() {
                             {/* Product Details */}
                             <div className="flex-1">
                                 <Link to={`/product/${item.id}`}>
-                                    <h3 className="font-semibold text-lg text-gray-800 hover:text-blue-600 mb-1">
+                                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 hover:text-blue-600 mb-1">
                                         {item.name}
                                     </h3>
                                 </Link>
-                                <p className="text-sm text-gray-500 mb-2">
+                                <p className="text-sm sm:text-base text-gray-500 mb-2">
                                     {item.category}
                                 </p>
-                                <p className="text-xl font-bold text-blue-600">
+                                <p className="text-xl font-bold text-orange-400">
                                     ${item.price}
                                 </p>
                             </div>
@@ -126,7 +126,7 @@ function CartPage() {
                                     </button>
                                 </div>
 
-                                <p className="text-sm text-gray-600">
+                                <p className="text-sm sm:text-base text-gray-600">
                                     Subtotal: $
                                     {(item.price * item.quantity).toFixed(2)}
                                 </p>
@@ -146,7 +146,7 @@ function CartPage() {
                 {/* Order Summary */}
                 <div className="lg:col-span-1">
                     <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-                        <h2 className="text-xl font-bold text-gray-800 mb-4">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                             Order Summary
                         </h2>
 
@@ -173,7 +173,7 @@ function CartPage() {
                             </div>
 
                             {subtotal < 50 && subtotal > 0 && (
-                                <p className="text-sm text-orange-600">
+                                <p className="text-sm sm:text-basetext-orange-600">
                                     Add ${(50 - subtotal).toFixed(2)} more for
                                     free shipping!
                                 </p>
@@ -181,7 +181,7 @@ function CartPage() {
 
                             <div className="border-t pt-3 flex justify-between text-lg font-bold">
                                 <span>Total</span>
-                                <span className="text-blue-600">
+                                <span className="text-orange-500">
                                     ${total.toFixed(2)}
                                 </span>
                             </div>

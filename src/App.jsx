@@ -10,7 +10,7 @@ import OrderHistory from "./pages/OrderHistory";
 
 function App() {
     return (
-        <div className="min-h-screen bg-[#f8f9fa]">
+        <div className="min-h-screen bg-white">
             <Toaster position="top-right" />
             <Navbar />
 
