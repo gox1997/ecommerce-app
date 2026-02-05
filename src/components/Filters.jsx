@@ -40,7 +40,7 @@ function Filters({ filters, setFilters, onClearFilters }) {
                 </h2>
                 <button
                     onClick={onClearFilters}
-                    className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
+                    className="text-sm text-red-500 hover:text-red-700 font-semibold"
                 >
                     Clear All
                 </button>

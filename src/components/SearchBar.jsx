@@ -31,7 +31,7 @@ function SearchBar({ searchQuery, setSearchQuery }) {
                     value={localSearch}
                     onChange={handleSearchChange}
                     placeholder="Search products..."
-                    className="w-full pl-12 pr-12 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                    className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition-all"
                 />
                 {localSearch && (
                     <button

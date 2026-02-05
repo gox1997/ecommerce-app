@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
@@ -10,14 +10,12 @@ import Button from "../components/Button";
 import ProductCardSkeleton from "../components/ProductCardSkeleton";
 
 function Home() {
+    const { addToCart, toggleFavorite, isFavorite } = useCart();
+
     const [isLoading, setIsLoading] = useState(false);
 
-    // Show loading when needed
-    if (isLoading) {
-        return <LoadingSpinner text="Loading products..." />;
-    }
-
-    const { addToCart, toggleFavorite, isFavorite } = useCart();
+    // Search state
+    const [searchQuery, setSearchQuery] = useState("");
 
     // Filter state
     const [filters, setFilters] = useState({
@@ -26,8 +24,27 @@ function Home() {
         sortBy: "",
     });
 
-    // Search state
-    const [searchQuery, setSearchQuery] = useState("");
+    // Show spinner ONLY when filters or search actually change
+    useEffect(() => {
+        // Skip on initial mount (when dependencies are their default values)
+        if (
+            filters.categories.length === 0 &&
+            filters.priceRange.min === "" &&
+            filters.priceRange.max === "" &&
+            filters.sortBy === "" &&
+            searchQuery === ""
+        ) {
+            return;
+        }
+
+        setIsLoading(true);
+
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 800);
+
+        return () => clearTimeout(timer);
+    }, [filters, searchQuery]);
 
     // Filter and sort products
     const filteredProducts = useMemo(() => {
@@ -203,15 +220,15 @@ function Home() {
 
                                     {/* Product Image */}
                                     <Link to={`/product/${product.id}`}>
-                                        <div className="relative h-64 sm:h-72 md:h-64 overflow-hidden">
+                                        <div className="relative h-44 sm:h-72 md:h-64 overflow-hidden">
                                             <img
                                                 src={product.image}
                                                 alt={product.name}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform "
                                             />
 
                                             {/* Gradient overlay on hover */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity "></div>
 
                                             {/* Stock badges */}
                                             {product.stock <= 5 &&
@@ -235,8 +252,12 @@ function Home() {
                                             {product.category}
                                         </div>
 
-                                        <Link to={`/product/${product.id}`}>
-                                            <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                                        <Link
+                                            to={`/product/${product.id}`}
+                                            title={product.name}
+                                            className="block"
+                                        >
+                                            <h3 className="line-clamp-1 font-bold text-base sm:text-lg text-gray-900 mb-2  group-hover:text-blue-600 transition-colors">
                                                 {product.name}
                                             </h3>
                                         </Link>
@@ -248,7 +269,7 @@ function Home() {
                                         {/* Price and Rating  */}
                                         <div className="flex justify-between items-center mb-4">
                                             <div>
-                                                <span className="text-xl sm:text-2xl  font-bold text-orange-500">
+                                                <span className="text-sm sm:text-xl  font-bold text-orange-500">
                                                     ${product.price}
                                                 </span>
                                             </div>
@@ -266,7 +287,7 @@ function Home() {
                                                 handleAddToCart(product)
                                             }
                                             disabled={product.stock === 0}
-                                            className={`w-full py-2.5 sm:py-3 px-4 rounded-lg font-semibold transition-all ripple ${
+                                            className={`text-base w-full  px-1 py-1 pr-2 sm:px-2 sm:py-2 rounded-lg font-semibold transition-all ripple ${
                                                 product.stock > 0
                                                     ? "btn-primary btn-lift"
                                                     : "bg-gray-300 text-gray-500 cursor-not-allowed"

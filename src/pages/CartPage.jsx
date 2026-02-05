@@ -67,7 +67,7 @@ function CartPage() {
                                 <img
                                     src={item.image}
                                     alt={item.name}
-                                    className="w-24 h-24 object-cover rounded-lg hover:opacity-80 transition-opacity"
+                                    className="h-20 w-20 sm:h-40 sm:w-40 object-cover rounded-lg hover:opacity-80 transition-opacity"
                                 />
                             </Link>
 
@@ -97,7 +97,7 @@ function CartPage() {
                                     Remove
                                 </button>
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-0 sm:gap-1 md:gap-2">
                                     <button
                                         onClick={() =>
                                             handleQuantityChange(
@@ -173,7 +173,7 @@ function CartPage() {
                             </div>
 
                             {subtotal < 50 && subtotal > 0 && (
-                                <p className="text-sm sm:text-basetext-orange-600">
+                                <p className="text-sm sm:text-base text-orange-600">
                                     Add ${(50 - subtotal).toFixed(2)} more for
                                     free shipping!
                                 </p>

@@ -4,7 +4,7 @@ export const products = [
         name: "Wireless Headphones",
         price: 79.99,
         category: "electronics",
-        image: "/products/headphones.jpeg",
+        image: "/products/headphones.jpg",
         description:
             "High-quality wireless headphones with noise cancellation and 30-hour battery life.",
         rating: 4.5,
@@ -16,7 +16,7 @@ export const products = [
         name: "Smart Watch",
         price: 199.99,
         category: "electronics",
-        image: "/products/smartwatch.jpeg",
+        image: "/products/smartwatch.jpg",
         description:
             "Fitness tracking smart watch with heart rate monitor and GPS.",
         rating: 4.7,
@@ -28,7 +28,7 @@ export const products = [
         name: "Running Shoes",
         price: 89.99,
         category: "sports",
-        image: "/products/running-shoes.jpeg",
+        image: "/products/shoes.jpg",
         description:
             "Comfortable running shoes with cushioned sole and breathable fabric.",
         rating: 4.3,
@@ -40,7 +40,7 @@ export const products = [
         name: "Laptop Backpack",
         price: 49.99,
         category: "accessories",
-        image: "/products/laptop-backpack.jpeg",
+        image: "/products/laptop-backpack.jpg",
         description:
             "Durable laptop backpack with multiple compartments and USB charging port.",
         rating: 4.6,
@@ -52,7 +52,7 @@ export const products = [
         name: "Coffee Maker",
         price: 129.99,
         category: "home",
-        image: "/products/coffee-maker.jpeg",
+        image: "/products/coffee-maker.jpg",
         description:
             "Programmable coffee maker with 12-cup capacity and auto-brew feature.",
         rating: 4.4,
@@ -64,7 +64,7 @@ export const products = [
         name: "Yoga Mat",
         price: 34.99,
         category: "sports",
-        image: "/products/yoga-mat.jpeg",
+        image: "/products/yoga-mat.jpg",
         description:
             "Non-slip yoga mat with extra cushioning and carrying strap.",
         rating: 4.8,
@@ -76,7 +76,7 @@ export const products = [
         name: "Bluetooth Speaker",
         price: 59.99,
         category: "electronics",
-        image: "/products/bluetooth-speaker.jpeg",
+        image: "/products/bluetooth-speaker.jpg",
         description:
             "Portable Bluetooth speaker with 360-degree sound and waterproof design.",
         rating: 4.5,
@@ -88,7 +88,7 @@ export const products = [
         name: "Desk Lamp",
         price: 39.99,
         category: "home",
-        image: "/products/lamp.jpeg",
+        image: "/products/desk-lamp.jpg",
         description:
             "LED desk lamp with adjustable brightness and USB charging port.",
         rating: 4.2,
@@ -100,7 +100,7 @@ export const products = [
         name: "Water Bottle",
         price: 24.99,
         category: "sports",
-        image: "/products/bottle.jpeg",
+        image: "/products/bottle.jpg",
         description:
             "Insulated stainless steel water bottle keeps drinks cold for 24 hours.",
         rating: 4.7,
@@ -112,7 +112,7 @@ export const products = [
         name: "Phone Case",
         price: 19.99,
         category: "accessories",
-        image: "/products/phone-case.jpeg",
+        image: "/products/phone-case.jpg",
         description:
             "Protective phone case with shock absorption and slim design.",
         rating: 4.1,
@@ -124,7 +124,7 @@ export const products = [
         name: "Gaming Mouse",
         price: 69.99,
         category: "electronics",
-        image: "/products/mouse.jpeg",
+        image: "/products/computer-mouse.jpg",
         description:
             "RGB gaming mouse with programmable buttons and adjustable DPI.",
         rating: 4.6,
@@ -136,7 +136,7 @@ export const products = [
         name: "Plant Pot Set",
         price: 29.99,
         category: "home",
-        image: "/products/plant-pot-set.jpeg",
+        image: "/products/plant-pot-set.jpg",
         description:
             "Set of 3 ceramic plant pots with drainage holes and saucers.",
         rating: 4.4,

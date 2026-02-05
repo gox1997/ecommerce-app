@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useEffect, useState } from "react";
+import { FcShop } from "react-icons/fc";
 
 function Navbar() {
     const { getCartCount } = useCart();
@@ -22,14 +23,13 @@ function Navbar() {
                 isScrolled ? "shadow-lg" : "shadow-md"
             }`}
         >
-            <div className="max-w-7xl mx-auto px-4 py-4">
+            <div className="max-w-7xl mx-auto px-4 py-2 sm:py-4">
                 <div className="flex justify-between items-center">
                     {/* Logo/Brand */}
                     <Link to="/" className="flex items-center gap-2 group">
-                        <span className="text-3xl group-hover:scale-110 transition-transform">
-                            🛒
-                        </span>
-                        <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        <FcShop className="size-10 group-hover:scale-110 transition-transform" />
+
+                        <span className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Shop
                         </span>
                     </Link>

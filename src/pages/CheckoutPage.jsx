@@ -13,7 +13,7 @@ function CheckoutPage() {
         return (
             <div className="max-w-7xl mx-auto text-center py-16">
                 <div className="text-6xl mb-4">🛒</div>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-boldtext-gray-800 mb-4">
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                     Your cart is empty
                 </h2>
                 <p className="text-sm sm:text-basetext-gray-600 mb-8">
@@ -612,7 +612,7 @@ function CheckoutPage() {
 
                                 {/* Shipping Details */}
                                 <div className="mb-6">
-                                    <h3 className="text-lg sm:text-xl md:text-2xl font-semiboldtext-gray-800 mb-3">
+                                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3">
                                         Shipping To:
                                     </h3>
                                     <div className="bg-gray-50 rounded-lg p-4">
@@ -716,7 +716,7 @@ function CheckoutPage() {
                 {/* Order Summary Sidebar */}
                 <div className="lg:col-span-1">
                     <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-                        <h2 className="text-xl sm:text-2xl md:text-3xl font-boldtext-gray-800 mb-4">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                             Order Summary
                         </h2>
 

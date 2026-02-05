@@ -93,11 +93,11 @@ function ProductDetail() {
                 {/* Left Column - Image */}
                 <div className="relative">
                     <div className="sticky top-24">
-                        <div className="relative rounded-2xl overflow-hidden bg-gray-100">
+                        <div className="relative w-full overflow-hidden bg-gray-100 rounded-2xl">
                             <img
                                 src={product.image}
                                 alt={product.name}
-                                className="w-full h-[500px] object-cover"
+                                className="w-full h-auto aspect-[4/3] sm:aspect-[3/2] lg:aspect-[4/3] object-cover"
                             />
 
                             {/* Favorite Button */}
@@ -139,7 +139,7 @@ function ProductDetail() {
 
                     {/* Brand */}
                     {product.brand && (
-                        <p className="text-sm sm:text-basetext-gray-600 mb-4">
+                        <p className="text-sm sm:text-base text-gray-600 mb-4">
                             Brand:{" "}
                             <span className="font-semibold">
                                 {product.brand}
@@ -166,7 +166,7 @@ function ProductDetail() {
 
                     {/* Price */}
                     <div className="mb-6">
-                        <span className="text-4xl font-bold text-blue-600">
+                        <span className="text-4xl font-bold text-orange-400">
                             ${product.price}
                         </span>
                     </div>
@@ -176,7 +176,7 @@ function ProductDetail() {
                         <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3">
                             Description
                         </h3>
-                        <p className="text-sm sm:text-basetext-gray-600 leading-relaxed">
+                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                             {product.description}
                         </p>
                     </div>
@@ -299,7 +299,7 @@ function ProductDetail() {
                                             {relatedProduct.name}
                                         </h3>
                                         <div className="flex justify-between items-center">
-                                            <span className="text-lg font-bold text-orange-500">
+                                            <span className="text-lg font-bold text-orange-400">
                                                 ${relatedProduct.price}
                                             </span>
                                             <div className="flex items-center">
