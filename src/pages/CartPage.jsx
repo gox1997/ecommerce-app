@@ -7,7 +7,7 @@ function CartPage() {
         useCart();
 
     // Calculate totals
-    const subtotal = getCartSubtotal();
+    const subtotal = getCartSubtotal;
     const tax = subtotal * 0.25; // 25% tax
     const shipping = subtotal > 50 ? 0 : 10; // Free shipping over $50
     const total = subtotal + tax + shipping;

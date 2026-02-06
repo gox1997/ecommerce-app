@@ -1,32 +1,26 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
-import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import Filters from "../components/Filters";
 import SearchBar from "../components/SearchBar";
-import LoadingSpinner from "../components/LoadingSpinner";
-import Button from "../components/Button";
 import ProductCardSkeleton from "../components/ProductCardSkeleton";
+import ProductCard from "../components/ProductCard";
 
 function Home() {
     const { addToCart, toggleFavorite, isFavorite } = useCart();
 
     const [isLoading, setIsLoading] = useState(false);
-
-    // Search state
     const [searchQuery, setSearchQuery] = useState("");
-
-    // Filter state
     const [filters, setFilters] = useState({
         categories: [],
         priceRange: { min: "", max: "" },
         sortBy: "",
     });
+    const [addingToCart, setAddingToCart] = useState(null);
 
     // Show spinner ONLY when filters or search actually change
     useEffect(() => {
-        // Skip on initial mount (when dependencies are their default values)
         if (
             filters.categories.length === 0 &&
             filters.priceRange.min === "" &&
@@ -38,7 +32,6 @@ function Home() {
         }
 
         setIsLoading(true);
-
         const timer = setTimeout(() => {
             setIsLoading(false);
         }, 800);
@@ -46,7 +39,6 @@ function Home() {
         return () => clearTimeout(timer);
     }, [filters, searchQuery]);
 
-    // Filter and sort products
     const filteredProducts = useMemo(() => {
         let result = [...products];
 
@@ -110,34 +102,45 @@ function Home() {
         }
 
         return result;
-    }, [products, searchQuery, filters]);
+    }, [searchQuery, filters]);
 
-    // Clear all filters
-    const handleClearFilters = () => {
+    const handleClearFilters = useCallback(() => {
         setFilters({
             categories: [],
             priceRange: { min: "", max: "" },
             sortBy: "",
         });
         setSearchQuery("");
-    };
+    }, []); // Empty deps = function never changes
 
-    // Add to cart handler
-    const [addingToCart, setAddingToCart] = useState(null);
-    const handleAddToCart = async (product) => {
-        setAddingToCart(product.id); // Start loading for this product
+    /**
+     * This function needs to stay stable across renders because:
+     * 1. It's passed to ProductCard (which is memoized)
+     * 2. We don't want ProductCards to re-render when this reference changes
+     *
+     * Dependencies: [addToCart]
+     * - Only recreate if addToCart changes (which it won't from CartContext)
+     */
+    const handleAddToCart = useCallback(
+        async (product) => {
+            setAddingToCart(product.id);
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            addToCart(product);
+            toast.success(`${product.name} added to cart!`, {
+                duration: 2000,
+                icon: "🛒",
+            });
+            setAddingToCart(null);
+        },
+        [addToCart], // Only recreate if addToCart changes
+    );
 
-        // Simulate delay
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        addToCart(product);
-        toast.success(`${product.name} added to cart!`, {
-            duration: 2000,
-            icon: "🛒",
-        });
-
-        setAddingToCart(null); // Stop loading
-    };
+    const handleToggleFavorite = useCallback(
+        (productId) => {
+            toggleFavorite(productId);
+        },
+        [toggleFavorite],
+    );
 
     return (
         <div className="max-w-7xl mx-auto">
@@ -173,20 +176,18 @@ function Home() {
                 {/* Products Grid */}
                 <div className="lg:col-span-3">
                     {isLoading ? (
-                        // SHOW SKELETONS WHILE LOADING
                         <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                             {[...Array(6)].map((_, index) => (
                                 <ProductCardSkeleton key={index} />
                             ))}
                         </div>
                     ) : filteredProducts.length === 0 ? (
-                        // No results message
                         <div className="text-center py-16">
                             <div className="text-6xl mb-4">😕</div>
                             <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-2">
                                 No products found
                             </h3>
-                            <p className="text-sm sm:text-basetext-gray-600 mb-6">
+                            <p className="text-sm sm:text-base text-gray-600 mb-6">
                                 Try adjusting your filters or search query
                             </p>
                             <button
@@ -199,106 +200,14 @@ function Home() {
                     ) : (
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                             {filteredProducts.map((product) => (
-                                <div
+                                <ProductCard
                                     key={product.id}
-                                    className="product-card group"
-                                >
-                                    {/* Favorite button  */}
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            toggleFavorite(product.id);
-                                        }}
-                                        className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg hover:scale-110 transition-transform"
-                                    >
-                                        <span className="text-xl">
-                                            {isFavorite(product.id)
-                                                ? "❤️"
-                                                : "🤍"}
-                                        </span>
-                                    </button>
-
-                                    {/* Product Image */}
-                                    <Link to={`/product/${product.id}`}>
-                                        <div className="relative h-44 sm:h-72 md:h-64 overflow-hidden">
-                                            <img
-                                                src={product.image}
-                                                alt={product.name}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform "
-                                            />
-
-                                            {/* Gradient overlay on hover */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity "></div>
-
-                                            {/* Stock badges */}
-                                            {product.stock <= 5 &&
-                                                product.stock > 0 && (
-                                                    <span className="badge badge-warning absolute top-3 right-3">
-                                                        Only {product.stock}{" "}
-                                                        left!
-                                                    </span>
-                                                )}
-                                            {product.stock === 0 && (
-                                                <span className="badge badge-error absolute top-3 right-3">
-                                                    Out of Stock
-                                                </span>
-                                            )}
-                                        </div>
-                                    </Link>
-
-                                    {/* Product Info */}
-                                    <div className="p-4 sm:p-5">
-                                        <div className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2">
-                                            {product.category}
-                                        </div>
-
-                                        <Link
-                                            to={`/product/${product.id}`}
-                                            title={product.name}
-                                            className="block"
-                                        >
-                                            <h3 className="line-clamp-1 font-bold text-base sm:text-lg text-gray-900 mb-2  group-hover:text-blue-600 transition-colors">
-                                                {product.name}
-                                            </h3>
-                                        </Link>
-
-                                        <p className="text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2 leading-relaxed">
-                                            {product.description}
-                                        </p>
-
-                                        {/* Price and Rating  */}
-                                        <div className="flex justify-between items-center mb-4">
-                                            <div>
-                                                <span className="text-sm sm:text-xl  font-bold text-orange-500">
-                                                    ${product.price}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-lg">
-                                                <span>⭐</span>
-                                                <span className="text-sm font-semibold text-gray-700">
-                                                    {product.rating}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {/* Button with ripple effect */}
-                                        <button
-                                            onClick={() =>
-                                                handleAddToCart(product)
-                                            }
-                                            disabled={product.stock === 0}
-                                            className={`text-base w-full  px-1 py-1 pr-2 sm:px-2 sm:py-2 rounded-lg font-semibold transition-all ripple ${
-                                                product.stock > 0
-                                                    ? "btn-primary btn-lift"
-                                                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                            }`}
-                                        >
-                                            {product.stock > 0
-                                                ? "🛒 Add to Cart"
-                                                : "Out of Stock"}
-                                        </button>
-                                    </div>
-                                </div>
+                                    product={product}
+                                    isFavorite={isFavorite(product.id)}
+                                    onToggleFavorite={handleToggleFavorite}
+                                    onAddToCart={handleAddToCart}
+                                    isAddingToCart={addingToCart === product.id}
+                                />
                             ))}
                         </div>
                     )}

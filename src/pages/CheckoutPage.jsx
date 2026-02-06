@@ -166,7 +166,7 @@ function CheckoutPage() {
         // Simulate processing delay (optional but looks professional)
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
-        const subtotal = getCartSubtotal();
+        const subtotal = getCartSubtotal;
         const tax = subtotal * 0.25;
         const shipping = subtotal > 50 ? 0 : 10;
         const total = subtotal + tax + shipping;
@@ -197,7 +197,7 @@ function CheckoutPage() {
     };
 
     // Calculate totals
-    const subtotal = getCartSubtotal();
+    const subtotal = getCartSubtotal;
     const tax = subtotal * 0.25;
     const shipping = subtotal > 50 ? 0 : 10;
     const total = subtotal + tax + shipping;

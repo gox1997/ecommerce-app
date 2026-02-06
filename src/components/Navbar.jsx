@@ -57,9 +57,9 @@ function Navbar() {
                             className="relative hover:scale-110 transition-transform"
                         >
                             <span className="text-3xl">🛒</span>
-                            {getCartCount() > 0 && (
+                            {getCartCount > 0 && (
                                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center scale-in animate-pulse-slow">
-                                    {getCartCount()}
+                                    {getCartCount}
                                 </span>
                             )}
                         </Link>

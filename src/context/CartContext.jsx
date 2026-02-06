@@ -1,64 +1,106 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import {
+    createContext,
+    useState,
+    useEffect,
+    useContext,
+    useMemo,
+    useCallback,
+} from "react";
 
-// Create the context
+/**
+ * CONTEXT OPTIMIZATION EXPLAINED:
+ * ================================
+ *
+ * THE CRITICAL PROBLEM WITH CONTEXT:
+ *
+ * When you use React Context, every component that consumes the context
+ * re-renders when ANY value in the context changes. This is a huge
+ * performance problem!
+ *
+ * Example of the problem:
+ * - User adds item to cart
+ * - cart state changes
+ * - value object gets recreated (new reference!)
+ * - ALL components using useCart() re-render
+ * - This includes your entire Home page with all product cards!
+ *
+ * The fix requires understanding TWO concepts together:
+ *
+ * 1. useMemo for the value object
+ *    - Keeps the same object reference unless dependencies change
+ *    - Prevents unnecessary context updates
+ *
+ * 2. useCallback for all functions
+ *    - Keeps function references stable
+ *    - Ensures they don't cause the useMemo to recreate the value
+ */
+
 const CartContext = createContext();
 
-// Create provider component
 export function CartProvider({ children }) {
-    // State for cart items
     const [cart, setCart] = useState(() => {
-        // Load cart from localStorage on initial render
         const savedCart = localStorage.getItem("cart");
         return savedCart ? JSON.parse(savedCart) : [];
     });
 
-    // State for favorites
     const [favorites, setFavorites] = useState(() => {
         const savedFavorites = localStorage.getItem("favorites");
         return savedFavorites ? JSON.parse(savedFavorites) : [];
     });
 
-    // Save cart to localStorage whenever it changes
+    // Save to localStorage
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));
     }, [cart]);
 
-    // Save favorites to localStorage whenever they change
     useEffect(() => {
         localStorage.setItem("favorites", JSON.stringify(favorites));
     }, [favorites]);
 
-    // Add item to cart
-    const addToCart = (product, quantity = 1) => {
+    /**
+     * USECALLBACK FOR ALL CONTEXT FUNCTIONS:
+     * =======================================
+     *
+     * Why we need useCallback here:
+     *
+     * Without it:
+     * Every time CartProvider re-renders (which happens when cart/favorites change),
+     * ALL these functions get recreated with new references. This causes the
+     * useMemo'd value object below to think something changed, recreating it,
+     * which triggers re-renders in ALL consuming components.
+     *
+     * With useCallback:
+     * Functions keep the same reference across renders. Only the ones that
+     * actually depend on changing state get recreated when needed.
+     */
+
+    const addToCart = useCallback((product, quantity = 1) => {
         setCart((prevCart) => {
-            // Check if product already exists in cart
             const existingItem = prevCart.find(
                 (item) => item.id === product.id,
             );
 
             if (existingItem) {
-                // If exists, increase quantity
                 return prevCart.map((item) =>
                     item.id === product.id
                         ? { ...item, quantity: item.quantity + quantity }
                         : item,
                 );
             } else {
-                // If doesn't exist, add new item
                 return [...prevCart, { ...product, quantity }];
             }
         });
-    };
+    }, []); // No dependencies - uses setCart callback form
 
-    // Remove item from cart completely
-    const removeFromCart = (productId) => {
+    const removeFromCart = useCallback((productId) => {
         setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
-    };
+    }, []);
 
-    // Update quantity of specific item
-    const updateQuantity = (productId, newQuantity) => {
+    const updateQuantity = useCallback((productId, newQuantity) => {
         if (newQuantity <= 0) {
-            removeFromCart(productId);
+            setCart((prevCart) =>
+                prevCart.filter((item) => item.id !== productId),
+            );
             return;
         }
 
@@ -69,86 +111,155 @@ export function CartProvider({ children }) {
                     : item,
             ),
         );
-    };
+    }, []);
 
-    // Clear entire cart
-    const clearCart = () => {
+    const clearCart = useCallback(() => {
         setCart([]);
-    };
+    }, []);
 
-    // Get total number of items in cart
-    const getCartCount = () => {
+    /**
+     * USEMEMO FOR COMPUTED VALUES:
+     * =============================
+     *
+     * These functions calculate values from cart state.
+     * We memoize them so they only recalculate when cart changes.
+     *
+     * Before: getCartCount() ran on EVERY render
+     * After: getCartCount is recalculated only when cart changes
+     */
+    const getCartCount = useMemo(() => {
         return cart.reduce((total, item) => total + item.quantity, 0);
-    };
+    }, [cart]);
 
-    // Get cart subtotal (before tax/shipping)
-    const getCartSubtotal = () => {
+    const getCartSubtotal = useMemo(() => {
         return cart.reduce(
             (total, item) => total + item.price * item.quantity,
             0,
         );
-    };
+    }, [cart]);
 
-    // Calculate cart total with tax and shipping
-    const getCartTotal = () => {
-        const subtotal = getCartSubtotal();
-        const tax = subtotal * 0.25; // 25% tax
-        const shipping = subtotal > 50 ? 0 : 10; // Free shipping over $50
+    const getCartTotal = useMemo(() => {
+        const subtotal = getCartSubtotal;
+        const tax = subtotal * 0.25;
+        const shipping = subtotal > 50 ? 0 : 10;
         return subtotal + tax + shipping;
-    };
+    }, [getCartSubtotal]);
 
-    // Add to favorites
-    const addToFavorites = (productId) => {
+    // Favorites functions
+    const addToFavorites = useCallback((productId) => {
         setFavorites((prev) => {
             if (prev.includes(productId)) {
-                return prev; // Already in favorites
+                return prev;
             }
             return [...prev, productId];
         });
-    };
+    }, []);
 
-    // Remove from favorites
-    const removeFromFavorites = (productId) => {
+    const removeFromFavorites = useCallback((productId) => {
         setFavorites((prev) => prev.filter((id) => id !== productId));
-    };
+    }, []);
 
-    // Toggle favorite
-    const toggleFavorite = (productId) => {
-        if (favorites.includes(productId)) {
-            removeFromFavorites(productId);
-        } else {
-            addToFavorites(productId);
-        }
-    };
+    const toggleFavorite = useCallback((productId) => {
+        setFavorites((prev) => {
+            if (prev.includes(productId)) {
+                return prev.filter((id) => id !== productId);
+            }
+            return [...prev, productId];
+        });
+    }, []);
 
-    // Check if item is in favorites
-    const isFavorite = (productId) => {
-        return favorites.includes(productId);
-    };
+    /**
+     * For isFavorite, we return a function instead of memoizing each call.
+     * This is because we can't predict which productIds will be checked.
+     * The function itself is stable (useCallback), so it won't cause re-renders.
+     */
+    const isFavorite = useCallback(
+        (productId) => {
+            return favorites.includes(productId);
+        },
+        [favorites],
+    );
 
-    // Value object with all functions and state
-    const value = {
-        cart,
-        favorites,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        getCartCount,
-        getCartSubtotal,
-        getCartTotal,
-        addToFavorites,
-        removeFromFavorites,
-        toggleFavorite,
-        isFavorite,
-    };
+    /**
+     * THE CRITICAL OPTIMIZATION - MEMOIZED CONTEXT VALUE:
+     * ====================================================
+     *
+     * This is the most important part!
+     *
+     * Without useMemo:
+     * Every render creates a new object { cart, favorites, addToCart, ... }
+     * React sees: oldValue !== newValue (different object references)
+     * React re-renders ALL consumers, even if nothing actually changed
+     *
+     * With useMemo:
+     * The object is only recreated when dependencies change
+     * If only cart changes, we get a new object (expected)
+     * If something else re-renders CartProvider, we keep the same object
+     *
+     * Dependencies: [cart, favorites, ...all our functions]
+     * - cart: needs to be here, changes when items added/removed
+     * - favorites: needs to be here, changes when favorites toggled
+     * - All functions: useCallback keeps them stable, so won't trigger updates
+     * - Computed values: useMemo keeps them stable until cart changes
+     */
+    const value = useMemo(
+        () => ({
+            cart,
+            favorites,
+            addToCart,
+            removeFromCart,
+            updateQuantity,
+            clearCart,
+            getCartCount, // This is now a VALUE not a function
+            getCartSubtotal, // This is now a VALUE not a function
+            getCartTotal, // This is now a VALUE not a function
+            addToFavorites,
+            removeFromFavorites,
+            toggleFavorite,
+            isFavorite,
+        }),
+        [
+            cart,
+            favorites,
+            addToCart,
+            removeFromCart,
+            updateQuantity,
+            clearCart,
+            getCartCount,
+            getCartSubtotal,
+            getCartTotal,
+            addToFavorites,
+            removeFromFavorites,
+            toggleFavorite,
+            isFavorite,
+        ],
+    );
+
+    /**
+     * IMPORTANT NOTE ABOUT THE API CHANGE:
+     * =====================================
+     *
+     * In the old version, you called: getCartCount()
+     * In this version, you use: getCartCount (no parentheses!)
+     *
+     * This is because they're now VALUES computed with useMemo,
+     * not FUNCTIONS that run on every call.
+     *
+     * Benefits:
+     * - No repeated calculations
+     * - Values update automatically when cart changes
+     * - Much better performance
+     *
+     * You'll need to update code like this:
+     * OLD: {getCartCount()}
+     * NEW: {getCartCount}
+     */
 
     return (
         <CartContext.Provider value={value}>{children}</CartContext.Provider>
     );
 }
 
-// Custom hook to use cart context
 export function useCart() {
     const context = useContext(CartContext);
 
