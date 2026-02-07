@@ -136,7 +136,7 @@ export const products = [
         name: "Plant Pot Set",
         price: 29.99,
         category: "home",
-        image: "/products/plant-pot-set.jpg",
+        image: "/products/plant-pot-set.webp",
         description:
             "Set of 3 ceramic plant pots with drainage holes and saucers.",
         rating: 4.4,
