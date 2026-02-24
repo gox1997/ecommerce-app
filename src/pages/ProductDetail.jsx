@@ -23,7 +23,7 @@ function ProductDetail() {
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                     Product Not Found
                 </h2>
-                <p className="text-sm sm:text-basetext-gray-600 mb-8">
+                <p className="text-sm sm:text-base text-gray-600 mb-8">
                     Sorry, we couldn't find the product you're looking for.
                 </p>
                 <Link

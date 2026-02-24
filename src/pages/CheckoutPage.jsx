@@ -16,7 +16,7 @@ function CheckoutPage() {
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
                     Your cart is empty
                 </h2>
-                <p className="text-sm sm:text-basetext-gray-600 mb-8">
+                <p className="text-sm sm:text-base text-gray-600 mb-8">
                     Add some items to your cart before checking out.
                 </p>
                 <button
@@ -201,8 +201,6 @@ function CheckoutPage() {
     const tax = subtotal * 0.25;
     const shipping = subtotal > 50 ? 0 : 10;
     const total = subtotal + tax + shipping;
-
-    const calculateTotal = () => total;
 
     // Format card number with spaces
     const handleCardNumberChange = (e) => {

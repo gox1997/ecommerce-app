@@ -104,7 +104,7 @@ function OrderSuccess() {
 
                 {/* Shipping Address */}
                 <div className="bg-gray-50 rounded-lg p-6 mb-8 text-left">
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-semiboldtext-gray-800 mb-3">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3">
                         Shipping Address
                     </h3>
                     <p className="text-gray-700">{order.shipping.fullName}</p>

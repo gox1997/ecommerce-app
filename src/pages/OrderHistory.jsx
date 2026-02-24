@@ -58,7 +58,7 @@ function OrderHistory() {
                                 <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
                                     Order #{order.id}
                                 </h3>
-                                <p className="text-sm sm:text-basetext-gray-600">
+                                <p className="text-sm sm:text-base text-gray-600">
                                     {formatDate(order.date)}
                                 </p>
                             </div>

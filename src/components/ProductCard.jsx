@@ -29,6 +29,8 @@ function ProductCard({
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                         loading="lazy"
+                        height={300}
+                        width={300}
                     />
 
                     {/* Gradient overlay on hover */}

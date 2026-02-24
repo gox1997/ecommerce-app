@@ -235,26 +235,6 @@ export function CartProvider({ children }) {
         ],
     );
 
-    /**
-     * IMPORTANT NOTE ABOUT THE API CHANGE:
-     * =====================================
-     *
-     * In the old version, you called: getCartCount()
-     * In this version, you use: getCartCount (no parentheses!)
-     *
-     * This is because they're now VALUES computed with useMemo,
-     * not FUNCTIONS that run on every call.
-     *
-     * Benefits:
-     * - No repeated calculations
-     * - Values update automatically when cart changes
-     * - Much better performance
-     *
-     * You'll need to update code like this:
-     * OLD: {getCartCount()}
-     * NEW: {getCartCount}
-     */
-
     return (
         <CartContext.Provider value={value}>{children}</CartContext.Provider>
     );
