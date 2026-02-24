@@ -86,7 +86,10 @@ function OrderHistory() {
                                         <img
                                             src={item.image}
                                             alt={item.name}
-                                            className="w-16 h-16 object-cover rounded"
+                                            className="w-16 h-16 object-contain bg-gray-50 rounded-lg"
+                                            loading="lazy"
+                                            width="64"
+                                            height="64"
                                         />
                                         <div className="flex-1">
                                             <Link

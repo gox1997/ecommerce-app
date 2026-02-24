@@ -23,14 +23,14 @@ function ProductCard({
 
             {/* Product Image */}
             <Link to={`/product/${product.id}`}>
-                <div className="relative h-44 sm:h-72 md:h-64 overflow-hidden">
+                <div className="relative overflow-hidden bg-gray-50 rounded-t-xl">
                     <img
                         src={product.image}
                         alt={product.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                        className="w-full h-auto aspect-square object-contain  bg-gray-50 group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
-                        height={300}
-                        width={300}
+                        width="400"
+                        height="400"
                     />
 
                     {/* Gradient overlay on hover */}

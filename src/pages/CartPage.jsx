@@ -68,7 +68,10 @@ function CartPage() {
                                 <img
                                     src={item.image}
                                     alt={item.name}
-                                    className="h-20 w-20 sm:h-40 sm:w-40 object-cover rounded-lg hover:opacity-80 transition-opacity"
+                                    className="w-20 h-20 sm:w-32 sm:h-32 object-contain bg-gray-50 rounded-lg hover:opacity-80 transition-opacity"
+                                    loading="lazy"
+                                    width="128"
+                                    height="128"
                                 />
                             </Link>
 

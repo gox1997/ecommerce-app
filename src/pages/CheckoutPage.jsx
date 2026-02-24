@@ -8,28 +8,6 @@ function CheckoutPage() {
     const { cart, getCartSubtotal, clearCart } = useCart();
     const navigate = useNavigate();
 
-    // Redirect if cart is empty
-    if (cart.length === 0) {
-        return (
-            <div className="max-w-7xl mx-auto text-center py-16">
-                <div className="text-6xl mb-4">🛒</div>
-                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                    Your cart is empty
-                </h2>
-                <p className="text-sm sm:text-base text-gray-600 mb-8">
-                    Add some items to your cart before checking out.
-                </p>
-                <Button
-                    onClick={() => navigate("/")}
-                    variant="primary"
-                    className="px-8 py-3"
-                >
-                    Continue Shopping
-                </Button>
-            </div>
-        );
-    }
-
     // Current step (1, 2, or 3)
     const [currentStep, setCurrentStep] = useState(1);
 
@@ -53,6 +31,29 @@ function CheckoutPage() {
 
     // Form errors
     const [errors, setErrors] = useState({});
+    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+
+    // Redirect if cart is empty
+    if (cart.length === 0) {
+        return (
+            <div className="max-w-7xl mx-auto text-center py-16">
+                <div className="text-6xl mb-4">🛒</div>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+                    Your cart is empty
+                </h2>
+                <p className="text-sm sm:text-base text-gray-600 mb-8">
+                    Add some items to your cart before checking out.
+                </p>
+                <Button
+                    onClick={() => navigate("/")}
+                    variant="primary"
+                    className="px-8 py-3"
+                >
+                    Continue Shopping
+                </Button>
+            </div>
+        );
+    }
 
     // Handle input change
     const handleInputChange = (e) => {
@@ -158,8 +159,6 @@ function CheckoutPage() {
         setCurrentStep((prev) => prev - 1);
     };
 
-    const [isPlacingOrder, setIsPlacingOrder] = useState(false);
-
     // Handle order placement
     const handlePlaceOrder = async () => {
         setIsPlacingOrder(true); // Start loading
@@ -233,7 +232,7 @@ function CheckoutPage() {
                     {[1, 2, 3].map((step) => {
                         const isActive = currentStep === step;
                         const isCompleted = currentStep > step;
-                        const isPending = currentStep < step;
+                        const isPlacingOrder = currentStep < step;
 
                         return (
                             <div

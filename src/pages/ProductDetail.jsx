@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom"; // removed unused useNavigate
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { getProductById, getProductsByCategory } from "../data/products";
@@ -6,17 +6,17 @@ import toast from "react-hot-toast";
 import Button from "../components/Button";
 
 function ProductDetail() {
-    const { id } = useParams(); // Get product ID from URL
-    const navigate = useNavigate();
+    const { id } = useParams();
     const { addToCart, toggleFavorite, isFavorite } = useCart();
 
     // Get the product
     const product = getProductById(id);
 
-    // Local state for quantity selector
+    // Local state
     const [quantity, setQuantity] = useState(1);
+    const [isAdding, setIsAdding] = useState(false);
 
-    // If product not found
+    // Early return for 404 - all hooks are above this (Rules of Hooks safe)
     if (!product) {
         return (
             <div className="max-w-7xl mx-auto text-center py-16">
@@ -26,22 +26,24 @@ function ProductDetail() {
                 <p className="text-sm sm:text-base text-gray-600 mb-8">
                     Sorry, we couldn't find the product you're looking for.
                 </p>
-                <Link
+                <Button
+                    as={Link}
                     to="/"
-                    className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+                    variant="primary"
+                    className="px-8 py-3"
                 >
                     Back to Home
-                </Link>
+                </Button>
             </div>
         );
     }
 
-    // Get related products (same category, excluding current)
+    // Related products
     const relatedProducts = getProductsByCategory(product.category)
         .filter((p) => p.id !== product.id)
         .slice(0, 4);
 
-    // Handle quantity change
+    // Handlers
     const handleQuantityChange = (change) => {
         const newQuantity = quantity + change;
         if (newQuantity >= 1 && newQuantity <= product.stock) {
@@ -49,15 +51,16 @@ function ProductDetail() {
         }
     };
 
-    // Handle add to cart
-    const [isAdding, setIsAdding] = useState(false);
     const handleAddToCart = async () => {
         setIsAdding(true);
-
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         addToCart(product, quantity);
-        toast.success(`${quantity} ${product.name}(s) added to cart!`, {
+
+        // Better plural handling
+        const itemText =
+            quantity === 1 ? product.name : `${quantity} ${product.name}s`;
+        toast.success(`${itemText} added to cart!`, {
             duration: 2000,
             icon: "🛒",
         });
@@ -97,7 +100,9 @@ function ProductDetail() {
                             <img
                                 src={product.image}
                                 alt={product.name}
-                                className="w-full h-auto aspect-[4/3] sm:aspect-[3/2] lg:aspect-[4/3] object-cover"
+                                className="w-full h-auto object-contain p-8 bg-gray-50"
+                                width="1200"
+                                height="1200"
                             />
 
                             {/* Favorite Button */}
@@ -110,7 +115,7 @@ function ProductDetail() {
                                 </span>
                             </button>
 
-                            {/* Stock Badge */}
+                            {/* Stock Badges */}
                             {product.stock <= 5 && product.stock > 0 && (
                                 <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
                                     Only {product.stock} left!
@@ -127,17 +132,14 @@ function ProductDetail() {
 
                 {/* Right Column - Details */}
                 <div>
-                    {/* Category */}
                     <div className="text-sm text-gray-500 uppercase tracking-wide mb-2">
                         {product.category}
                     </div>
 
-                    {/* Product Name */}
                     <h1 className="text-4xl font-bold text-gray-800 mb-4">
                         {product.name}
                     </h1>
 
-                    {/* Brand */}
                     {product.brand && (
                         <p className="text-sm sm:text-base text-gray-600 mb-4">
                             Brand:{" "}
@@ -147,7 +149,6 @@ function ProductDetail() {
                         </p>
                     )}
 
-                    {/* Rating */}
                     <div className="flex items-center gap-2 mb-6">
                         <div className="flex items-center">
                             <span className="text-yellow-400 text-xl mr-1">
@@ -164,14 +165,12 @@ function ProductDetail() {
                         </span>
                     </div>
 
-                    {/* Price */}
                     <div className="mb-6">
                         <span className="text-4xl font-bold text-orange-400">
                             ${product.price}
                         </span>
                     </div>
 
-                    {/* Description */}
                     <div className="mb-8">
                         <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 mb-3">
                             Description
@@ -181,7 +180,6 @@ function ProductDetail() {
                         </p>
                     </div>
 
-                    {/* Stock Status */}
                     <div className="mb-6">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-600">
@@ -207,27 +205,25 @@ function ProductDetail() {
                             </label>
                             <div className="flex items-center gap-4">
                                 <div className="flex items-center border-2 border-gray-300 rounded-lg">
-                                    <button
+                                    <Button
+                                        variant="secondary"
                                         onClick={() => handleQuantityChange(-1)}
-                                        className="px-4 py-3 hover:bg-gray-100 transition-colors"
                                         disabled={quantity <= 1}
+                                        className="w-12 h-12 !p-0 rounded-l-lg text-2xl font-bold"
                                     >
-                                        <span className="text-xl font-bold">
-                                            −
-                                        </span>
-                                    </button>
-                                    <span className="px-6 py-3 font-semibold text-lg">
+                                        −
+                                    </Button>
+                                    <span className="px-8 py-3 font-semibold text-lg min-w-[60px] text-center">
                                         {quantity}
                                     </span>
-                                    <button
+                                    <Button
+                                        variant="secondary"
                                         onClick={() => handleQuantityChange(1)}
-                                        className="px-4 py-3 hover:bg-gray-100 transition-colors"
                                         disabled={quantity >= product.stock}
+                                        className="w-12 h-12 !p-0 rounded-r-lg text-2xl font-bold"
                                     >
-                                        <span className="text-xl font-bold">
-                                            +
-                                        </span>
-                                    </button>
+                                        +
+                                    </Button>
                                 </div>
                                 <span className="text-gray-500">
                                     {product.stock} available
@@ -236,22 +232,21 @@ function ProductDetail() {
                         </div>
                     )}
 
-                    {/* Add to Cart Button */}
+                    {/* Add to Cart Button - now perfectly consistent */}
                     <div className="flex gap-4 mb-8">
                         <Button
                             onClick={handleAddToCart}
                             loading={isAdding}
+                            loadingText="Adding to cart..."
                             disabled={product.stock === 0}
                             variant={
                                 product.stock > 0 ? "primary" : "secondary"
                             }
                             className="flex-1 text-lg py-4"
                         >
-                            {isAdding
-                                ? "Adding..."
-                                : product.stock > 0
-                                  ? "🛒 Add to Cart"
-                                  : "Out of Stock"}
+                            {product.stock > 0
+                                ? "🛒 Add to Cart"
+                                : "Out of Stock"}
                         </Button>
                     </div>
 
@@ -291,7 +286,7 @@ function ProductDetail() {
                                         <img
                                             src={relatedProduct.image}
                                             alt={relatedProduct.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                                         />
                                     </div>
                                     <div className="p-4">

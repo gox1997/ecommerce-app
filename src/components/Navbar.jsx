@@ -36,7 +36,7 @@ function Navbar() {
                             className="size-10 group-hover:scale-110 transition-transform"
                             aria-hidden="true"
                         />
-                        <span className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        <span className="text-2xl md:text-4xl font-bold  bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                             Shop
                         </span>
                     </Link>
