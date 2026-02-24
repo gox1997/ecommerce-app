@@ -19,12 +19,13 @@ function CheckoutPage() {
                 <p className="text-sm sm:text-base text-gray-600 mb-8">
                     Add some items to your cart before checking out.
                 </p>
-                <button
+                <Button
                     onClick={() => navigate("/")}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+                    variant="primary"
+                    className="px-8 py-3"
                 >
                     Continue Shopping
-                </button>
+                </Button>
             </div>
         );
     }
@@ -679,32 +680,33 @@ function CheckoutPage() {
                         {/* Navigation Buttons */}
                         <div className="flex gap-4 mt-8">
                             {currentStep > 1 && (
-                                <button
+                                <Button
+                                    variant="secondary"
                                     onClick={handlePrevious}
-                                    className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                                    className="px-6 py-3"
                                 >
                                     Previous
-                                </button>
+                                </Button>
                             )}
 
                             {currentStep < 3 ? (
-                                <button
+                                <Button
+                                    variant="primary"
                                     onClick={handleNext}
-                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors"
+                                    className="flex-1"
                                 >
                                     Continue to{" "}
                                     {currentStep === 1 ? "Payment" : "Review"}
-                                </button>
+                                </Button>
                             ) : (
                                 <Button
                                     onClick={handlePlaceOrder}
                                     loading={isPlacingOrder}
+                                    loadingText="Processing..."
                                     variant="primary"
                                     className="flex-1"
                                 >
-                                    {isPlacingOrder
-                                        ? "Processing..."
-                                        : "Place Order"}
+                                    Place Order
                                 </Button>
                             )}
                         </div>

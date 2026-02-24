@@ -1,4 +1,5 @@
 import { useLocation, Link, Navigate } from "react-router-dom";
+import Button from "../components/Button";
 
 function OrderSuccess() {
     const location = useLocation();
@@ -123,12 +124,13 @@ function OrderSuccess() {
                     >
                         Continue Shopping
                     </Link>
-                    <button
+                    <Button
                         onClick={() => window.print()}
-                        className="flex-1 border-2 border-gray-300 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-50 transition-colors"
+                        variant="secondary"
+                        className="flex-1"
                     >
                         Print Receipt
-                    </button>
+                    </Button>
                 </div>
             </div>
         </div>

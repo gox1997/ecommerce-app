@@ -1,6 +1,7 @@
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import Button from "../components/Button";
 
 function CartPage() {
     const { cart, removeFromCart, updateQuantity, getCartSubtotal, clearCart } =
@@ -88,44 +89,46 @@ function CartPage() {
 
                             {/* Quantity Controls */}
                             <div className="flex flex-col items-end justify-between">
-                                <button
+                                <Button
+                                    variant="ghost"
+                                    className="text-red-500 hover:text-red-700 text-sm !px-3 !py-1"
                                     onClick={() =>
                                         handleRemove(item.id, item.name)
                                     }
-                                    className="ripple text-red-500 hover:text-red-700 font-semibold text-sm"
                                 >
                                     Remove
-                                </button>
+                                </Button>
 
-                                <div className="flex items-center gap-0 sm:gap-1 md:gap-2">
-                                    <button
+                                <div className="flex items-center gap-1">
+                                    <Button
+                                        variant="secondary"
+                                        className="w-8 h-8 !p-0 rounded-full text-xl font-bold"
                                         onClick={() =>
                                             handleQuantityChange(
                                                 item.id,
                                                 item.quantity - 1,
                                             )
                                         }
-                                        className="ripple w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
                                     >
-                                        -
-                                    </button>
+                                        −
+                                    </Button>
                                     <span className="w-12 text-center font-semibold">
                                         {item.quantity}
                                     </span>
-                                    <button
+                                    <Button
+                                        variant="secondary"
+                                        className="w-8 h-8 !p-0 rounded-full text-xl font-bold"
                                         onClick={() =>
                                             handleQuantityChange(
                                                 item.id,
                                                 item.quantity + 1,
                                             )
                                         }
-                                        className="ripple w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center font-bold"
                                         disabled={item.quantity >= item.stock}
                                     >
                                         +
-                                    </button>
+                                    </Button>
                                 </div>
-
                                 <p className="text-sm sm:text-base text-gray-600">
                                     Subtotal: $
                                     {(item.price * item.quantity).toFixed(2)}
@@ -135,12 +138,13 @@ function CartPage() {
                     ))}
 
                     {/* Clear Cart Button */}
-                    <button
+                    <Button
+                        variant="ghost"
+                        className="w-full !py-2 text-red-500 hover:text-red-700 font-semibold"
                         onClick={clearCart}
-                        className="ripple w-full py-2 text-red-500 hover:text-red-700 font-semibold"
                     >
                         Clear Cart
-                    </button>
+                    </Button>
                 </div>
 
                 {/* Order Summary */}
@@ -187,19 +191,23 @@ function CartPage() {
                             </div>
                         </div>
 
-                        <Link
+                        <Button
+                            as={Link}
                             to="/checkout"
-                            className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors mb-3 text-center"
+                            variant="primary"
+                            className="block w-full py-3 mb-3 text-center"
                         >
                             Proceed to Checkout
-                        </Link>
+                        </Button>
 
-                        <Link
+                        <Button
+                            as={Link}
                             to="/"
-                            className="block text-center text-blue-600 hover:text-blue-700 font-semibold"
+                            variant="ghost"
+                            className="block w-full text-center"
                         >
                             Continue Shopping
-                        </Link>
+                        </Button>
                     </div>
                 </div>
             </div>

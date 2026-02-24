@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import Filters from "../components/Filters";
 import SearchBar from "../components/SearchBar";
 import ProductCard from "../components/ProductCard";
+import Button from "../components/Button";
 
 function Home() {
     const { addToCart, toggleFavorite, isFavorite } = useCart();
@@ -139,12 +140,13 @@ function Home() {
                             <p className="text-sm sm:text-base text-gray-800 mb-6">
                                 Try adjusting your filters or search query
                             </p>
-                            <button
+                            <Button
+                                variant="primary"
                                 onClick={handleClearFilters}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                                className="px-6 py-3"
                             >
                                 Clear Filters
-                            </button>
+                            </Button>
                         </div>
                     ) : (
                         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
