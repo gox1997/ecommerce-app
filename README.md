@@ -3,8 +3,7 @@
 ![Shop Banner](public/images/shop-screenshot.png)  
 *A beautiful, fast, and fully functional e-commerce web application built with modern React best practices.*
 
-**Live Demo:** (https://ecommerce-app-virid-two.vercel.app/)[https://ecommerce-app-virid-two.vercel.app/] 
-
+**Live Demo:** (https://ecommerce-app-virid-two.vercel.app/)
 ---
 
 ## ✨ Features
