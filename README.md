@@ -1,20 +1,52 @@
-<<<<<<< HEAD
-# React + Vite
+# Shop — Modern React E-Commerce
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Shop Banner](public/images/shop-screenshot.png)  
+*A beautiful, fast, and fully functional e-commerce web application built with modern React best practices.*
 
-Currently, two official plugins are available:
+**Live Demo:** (https://ecommerce-app-virid-two.vercel.app/)[https://ecommerce-app-virid-two.vercel.app/] 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🛍️ **Smart Product Browsing** — Search, category filters, price range, sorting
+- ❤️ **Favorites System** — Persistent favorites with localStorage
+- 🛒 **Advanced Shopping Cart** — Add, update quantity, remove, clear cart
+- 💾 **Persistent Data** — Cart + Favorites saved automatically in browser
+- 📱 **Fully Responsive** — Perfect on mobile, tablet & desktop
+- 🔄 **Multi-step Checkout** — Shipping + Payment + Review with real-time validation
+- 🎉 **Order Success & History** — Full order flow with localStorage persistence
+- ⚡ **Blazing Fast Performance** — Highly optimized Context API (no unnecessary re-renders)
+- 🌟 **Premium UI/UX** — Custom Button component with loading states, variants, ripple effect & toast notifications
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# ecommerce-app
->>>>>>> d2880e1ace083273c0f9123026f3519ff44f68eb
+| Technology       | Purpose                          |
+|------------------|----------------------------------|
+| **React 18**     | UI Library                       |
+| **Vite**         | Build tool & dev server          |
+| **React Router** | Routing & navigation             |
+| **Tailwind CSS** | Styling                          |
+| **Context API**  | State management (highly optimized) |
+| **react-hot-toast** | Notifications                 |
+
+**Special Highlight:** The Cart Context is optimized with `useMemo` + `useCallback` to prevent the classic "adding to cart re-renders the whole page" problem.
+
+---
+
+## 🚀 Quick Start (Local Development)
+
+### Prerequisites
+- Node.js 18+
+- npm or yarn
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/yourusername/vibestore.git
+cd vibestore
+
+# 2. Install dependencies
+npm install
+
+# 3. Start development server
+npm run dev
